@@ -5,7 +5,13 @@ import (
 	"flag"
 	"log"
 	"os"
+	"sort"
 )
+
+// The TASK
+/*Given a max budget and a list of sales items implement a function that outputs
+the sorted list of deals within budget
+*/
 
 const path = "items.json"
 
@@ -20,7 +26,18 @@ type SaleItem struct {
 // matchSales adds the sales procentage of the item
 // and sorts the array accordingly.
 func matchSales(budget float64, items []SaleItem) []SaleItem {
-	panic("NOT IMPLEMENTED")
+	var mi []SaleItem
+	for _, si := range items {
+		if si.ReducedPrice <= budget {
+			si.SalePercentage = -(si.ReducedPrice - si.OriginalPrice) /
+			si.OriginalPrice * 100
+			mi = append(mi, si)
+		}
+	}
+	sort.Slice(mi, func(i, j int) bool {
+		return mi[i].SalePercentage > mi[j].SalePercentage
+	})
+	return mi
 }
 
 func main() {
