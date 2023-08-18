@@ -6,6 +6,11 @@ import (
 	"os"
 )
 
+// The TASK
+/* Given a list, users and their details implement a function that outputs the country
+with the most users
+*/
+
 // User represents a user record.
 type User struct {
 	Name    string `json:"name"`
@@ -17,7 +22,19 @@ const path = "users.json"
 // getBiggestMarket takes in the slice of users and
 // returns the biggest market.
 func getBiggestMarket(users []User) (string, int) {
-	panic("NOT IMPLEMENTED")
+	counts := make(map[string]int)
+	for _, u := range users {
+		counts[u.Country]++
+	}
+	maxCountry := ""
+	maxCount := 0
+	for country, count := range counts {
+		if count > maxCount {
+			maxCount = count
+			maxCountry = country
+		}
+	}
+	return maxCountry, maxCount
 }
 
 func main() {
