@@ -3,7 +3,12 @@ package main
 import (
 	"flag"
 	"log"
+	"math"
 )
+
+// The Task
+// Given an amount and a set of coins implement that outputs the optimal solution for
+// the given amount
 
 // coin contains the name and value of a coin
 type coin struct {
@@ -23,7 +28,15 @@ var coins = []coin{
 
 // calculateChange returns the coins required to calculate the
 func calculateChange(amount float64) map[coin]int {
-	panic("NOT IMPLEMENTED")
+	change := make(map[coin]int)
+	for _, coin := range coins {
+		if amount >= coin.value{
+			count := math.Floor(amount / coin.value)
+			amount = amount - count*coin.value
+			change[coin] = int(count)
+		}
+	}
+	return change
 }
 
 // printCoins prints all the coins in the slice to the terminal.
