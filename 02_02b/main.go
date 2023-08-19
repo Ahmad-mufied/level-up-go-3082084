@@ -3,8 +3,13 @@ package main
 import (
 	"log"
 	"math/rand"
+	"sync"
 	"time"
 )
+
+// The TASK
+// Given a list actions with random durations implement a function that simulates
+// the concurrent execution of the ordered list of actions.
 
 const maxSeconds = 3
 
@@ -74,5 +79,15 @@ func main() {
 }
 
 func executeWalk(ownerActions []func(), dogActions []func()) {
-	panic("NOT IMPLEMENTED")
+	var wg sync.WaitGroup
+	wg.Add(2)
+	defer wg.Wait()
+	executeActions := func(actions []func()) {
+		defer wg.Done()
+		for _, action := range actions {
+			action()
+		}
+	}
+	go executeActions(ownerActions)
+	go executeActions(dogActions)
 }
